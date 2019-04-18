@@ -12,12 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClientForDz2.ServiceReference1;
 
 namespace ClientForDz2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -25,17 +23,49 @@ namespace ClientForDz2
             InitializeComponent();
         }
 
-        private void ConvertClock(object sender, RoutedEventArgs e)
+        private void ConvertClick(object sender, RoutedEventArgs e)
         {
-
+            AllWork();
         }
 
         private void AllWork()
         {
-            if(string.IsNullOrEmpty(TextBoxForMetrs.Text) == false)
+            try
             {
-                var num = Double.Parse(TextBoxForMetrs.Text);
-                
+
+                if (string.IsNullOrEmpty(TextBoxForMetrs.Text) == false)
+                {
+                    var num = Double.Parse(TextBoxForMetrs.Text);
+                    using (ConverterClient client = new ConverterClient())
+                    {
+                        var s = client.LinearMeasure(num);
+                        TextBoxForFeets.Text = s.Feets.ToString();
+                        TextBoxForInches.Text = s.Inches.ToString();
+                        TextBoxForYards.Text = s.Yards.ToString();
+                    }
+                }
+                if (string.IsNullOrEmpty(TextBoxForCelsius.Text) == false)
+                {
+                    using (ConverterClient client = new ConverterClient())
+                    {
+                        var num = Double.Parse(TextBoxForCelsius.Text);
+                        var s = client.CelsiusToFahrenheit(num);
+                        TextBoxForWriteFahrenheit.Text = s.Fahrenheit.ToString();
+                    }
+                }
+                if (string.IsNullOrEmpty(TextBoxForFahrenheit.Text) == false)
+                {
+                    using (ConverterClient client = new ConverterClient())
+                    {
+                        var num = Double.Parse(TextBoxForFahrenheit.Text);
+                        var s = client.FahrenheitToCelsius(num);
+                        TextBoxForWriteCelsius.Text = s.Fahrenheit.ToString();
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No data available");
             }
         }
     }

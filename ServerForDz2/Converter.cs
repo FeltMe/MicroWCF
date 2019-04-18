@@ -25,7 +25,7 @@ namespace ServerForDz2
         {
             ConvertedUnits Units = new ConvertedUnits
             {
-                Fahrenheit = c * FahrenheitMultiplier + FahrenheitConst
+                Fahrenheit = (c * FahrenheitMultiplier) + FahrenheitConst
             };
             Console.WriteLine("Celsius Converter was called");
             return Units;
@@ -34,7 +34,7 @@ namespace ServerForDz2
         {
             ConvertedUnits Units = new ConvertedUnits
             {
-                Fahrenheit = f / FahrenheitMultiplier - FahrenheitConst
+                Fahrenheit = (f - FahrenheitConst) / FahrenheitMultiplier
             };
             Console.WriteLine("Fahrenheit Converter was called");
             return Units;
